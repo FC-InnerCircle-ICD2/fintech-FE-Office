@@ -6,7 +6,6 @@ import type { KeyReq, KeyRes } from '@type/key';
 export const useKeys = () => {
   return useMutation({
     mutationFn: (accessToken: string) => {
-      console.log(accessToken);
       return apiClient.post<KeyReq, KeyRes>(
         API_ENDPOINTS.MANAGEMENT.KEYS,
         {},

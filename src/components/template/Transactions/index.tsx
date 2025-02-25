@@ -15,11 +15,22 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@components/ui/pagination';
-import type { Transaction } from '@type/transaction';
+import type { FlattenedPayment, Payment } from '@type/transaction';
 import { transactionHeaders } from '@constants/transaction';
 import { convertCurrencyFormat, convertDateFormat } from '@lib/fommater';
 
-const index = ({ data }: { data: Transaction[] }) => {
+const index = ({ data }: { data: Payment[] }) => {
+  const result = data.flatMap((payment) =>
+    payment.transactions.map((transaction) => ({
+      paymentKey: transaction.paymentKey,
+      completedAt: transaction.completedAt,
+      orderName: payment.orderName,
+      cardNumber: payment.cardNumber,
+      amount: transaction.amount,
+      status: transaction.status,
+    })),
+  );
+
   return (
     <>
       <Table className='w-auto mx-auto'>
@@ -33,17 +44,16 @@ const index = ({ data }: { data: Transaction[] }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((transaction: Transaction) => (
-            <TableRow key={transaction.id}>
-              <TableCell>{transaction.id}</TableCell>
-              <TableCell>{convertDateFormat(transaction.createdAt)}</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
+          {result.map((payment: FlattenedPayment) => (
+            <TableRow key={payment.paymentKey}>
+              <TableCell>{payment.paymentKey}</TableCell>
+              <TableCell>{convertDateFormat(payment.completedAt)}</TableCell>
+              <TableCell>{payment.orderName}</TableCell>
+              <TableCell>{payment.cardNumber}</TableCell>
               <TableCell className='text-right'>
-                {convertCurrencyFormat(transaction.amount)}
+                {convertCurrencyFormat(payment.amount)}
               </TableCell>
-              <TableCell>{transaction.reason}</TableCell>
+              <TableCell>{payment.status}</TableCell>
             </TableRow>
           ))}
         </TableBody>
