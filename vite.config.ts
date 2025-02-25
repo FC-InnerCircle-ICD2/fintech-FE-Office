@@ -20,13 +20,13 @@ export default defineConfig({
     },
   },
 
-  server: {
-    proxy: {
-      '/proxy': {
-        target: 'https://backoffice.pay-200.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/proxy/, ''),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     '/proxy': {
+  //       target: 'https://backoffice.pay-200.com',
+  //       changeOrigin: true,
+  //       rewrite: (path) => path.replace(/^\/proxy/, ''),
+  //     },
+  //   },
+  // },
 });

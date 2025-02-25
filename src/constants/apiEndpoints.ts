@@ -1,4 +1,4 @@
-const BASE_URL = '/proxy/api/backoffice/v1';
+const BASE_URL = 'https://backoffice.pay-200.com/api/backoffice/v1';
 
 const getTransactionEndpoint = (paymentKey: string) =>
   `${BASE_URL}/payments/${paymentKey}/transactions`;
