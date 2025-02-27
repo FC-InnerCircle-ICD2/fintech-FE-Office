@@ -6,15 +6,15 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@components/ui/pagination';
+// import {
+//   Pagination,
+//   PaginationContent,
+//   PaginationEllipsis,
+//   PaginationItem,
+//   PaginationLink,
+//   PaginationNext,
+//   PaginationPrevious,
+// } from '@components/ui/pagination';
 import type { FlattenedPayment, Payment } from '@type/transaction';
 import { transactionHeaders } from '@constants/transaction';
 import { convertCurrencyFormat, convertDateFormat } from '@lib/fommater';
@@ -59,7 +59,7 @@ const index = ({ data }: { data: Payment[] }) => {
         </TableBody>
       </Table>
 
-      <Pagination className='mt-4'>
+      {/* <Pagination className='mt-4'>
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious onClick={() => console.log('previous')} />
@@ -85,7 +85,7 @@ const index = ({ data }: { data: Payment[] }) => {
             <PaginationNext />
           </PaginationItem>
         </PaginationContent>
-      </Pagination>
+      </Pagination> */}
     </>
   );
 };
