@@ -3,16 +3,37 @@ import { apiClient } from '@lib/api/apiClient';
 import { API_ENDPOINTS } from '@constants/apiEndpoints';
 import type { PaymentResponse } from '@type/transaction';
 
-export const usePayments = (accessToken: string, page: number = 0) => {
+interface PaymentFilters {
+  paymentKey?: string;
+  startDate?: string;
+  endDate?: string;
+  status?: string;
+}
+
+export const usePayments = (
+  accessToken: string,
+  page: number = 0,
+  filters: PaymentFilters = {},
+) => {
   return useQuery<PaymentResponse>({
-    queryKey: ['get-payments', page],
-    queryFn: () =>
-      apiClient.get<PaymentResponse>(
-        `${API_ENDPOINTS.PAYMENTS.PAYMENTS}?page=${page}`,
+    queryKey: ['get-payments', page, filters],
+    queryFn: () => {
+      const params = new URLSearchParams({
+        page: String(page),
+        limit: '10',
+        ...(filters.paymentKey && { paymentKey: filters.paymentKey }),
+        ...(filters.startDate && { startDate: filters.startDate }),
+        ...(filters.endDate && { endDate: filters.endDate }),
+        // ...(filters.status && { status: filters.status }),
+      });
+
+      return apiClient.get<PaymentResponse>(
+        `${API_ENDPOINTS.PAYMENTS.PAYMENTS}?${params.toString()}`,
         {
           Authorization: `Bearer ${accessToken}`,
         },
-      ),
+      );
+    },
     placeholderData: keepPreviousData,
   });
 };
