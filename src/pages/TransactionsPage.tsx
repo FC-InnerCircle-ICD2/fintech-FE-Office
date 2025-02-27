@@ -6,6 +6,14 @@ import { useAuthStore } from '@store/authStore';
 import { useState, useEffect } from 'react';
 import type { Payment } from '@type/transaction';
 import { Button } from '@components/ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@components/ui/select';
 
 const TransactionsPage = () => {
   const { auth } = useAuthStore();
@@ -31,6 +39,19 @@ const TransactionsPage = () => {
   else {
     return (
       <>
+        <Select>
+          <SelectTrigger className='w-[180px]'>
+            <SelectValue placeholder='거래상태' />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {/* <SelectLabel>거래상태</SelectLabel> */}
+              <SelectItem value='apple'>APPROVED</SelectItem>
+              <SelectItem value='banana'>CANCELLED</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
         <Transactions data={payments} />
         {Array.isArray(data?.data?.payments) &&
           data.data.payments.length > 0 && (
