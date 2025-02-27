@@ -10,6 +10,7 @@ import type { FlattenedPayment, Payment } from '@type/transaction';
 import { transactionHeaders } from '@constants/transaction';
 import { convertCurrencyFormat, convertDateFormat } from '@lib/fommater';
 import { useMemo } from 'react';
+import StatusBadge from './StatusBadge';
 
 const Transactions = ({ data }: { data: Payment[] }) => {
   const result = useMemo(
@@ -33,7 +34,10 @@ const Transactions = ({ data }: { data: Payment[] }) => {
         <TableHeader>
           <TableRow>
             {transactionHeaders.map((header) => (
-              <TableHead key={header} className='text-center'>
+              <TableHead
+                key={header}
+                className='text-center bg-[#f1f1f1] text-gray-700 p-2'
+              >
                 {header}
               </TableHead>
             ))}
@@ -41,19 +45,25 @@ const Transactions = ({ data }: { data: Payment[] }) => {
         </TableHeader>
         <TableBody>
           {result.map((payment: FlattenedPayment) => (
-            <TableRow key={payment.paymentKey}>
-              <TableCell className='text-center'>
+            <TableRow key={payment.paymentKey} className='hover:bg-[#f1f1f1]'>
+              <TableCell className='text-center py-3 border-b border-gray-300'>
                 {payment.paymentKey}
               </TableCell>
-              <TableCell>{convertDateFormat(payment.completedAt)}</TableCell>
-              <TableCell className='truncate w-48'>
+              <TableCell className='py-3 border-b border-gray-300'>
+                {convertDateFormat(payment.completedAt)}
+              </TableCell>
+              <TableCell className='truncate w-48 py-3 border-b border-gray-300'>
                 {payment.orderName}
               </TableCell>
-              <TableCell>{payment.cardNumber}</TableCell>
-              <TableCell className='text-right'>
+              <TableCell className='py-3 border-b border-gray-300'>
+                {payment.cardNumber}
+              </TableCell>
+              <TableCell className='text-right py-3 border-b border-gray-300'>
                 {convertCurrencyFormat(payment.amount)}
               </TableCell>
-              <TableCell>{payment.status}</TableCell>
+              <TableCell className='py-3 border-b border-gray-300'>
+                <StatusBadge status={payment.status} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

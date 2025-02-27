@@ -5,6 +5,7 @@ import Error from '@components/template/Error';
 import { useAuthStore } from '@store/authStore';
 import { useState, useEffect } from 'react';
 import type { Payment } from '@type/transaction';
+import { Button } from '@components/ui/button';
 
 const TransactionsPage = () => {
   const { auth } = useAuthStore();
@@ -33,9 +34,9 @@ const TransactionsPage = () => {
         <Transactions data={payments} />
         {Array.isArray(data?.data?.payments) &&
           data.data.payments.length > 0 && (
-            <button onClick={handleLoadMore} className='mt-4'>
+            <Button onClick={handleLoadMore} className='mt-4'>
               더보기
-            </button>
+            </Button>
           )}
       </>
     );
