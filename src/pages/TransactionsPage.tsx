@@ -47,7 +47,6 @@ const TransactionsPage = () => {
   };
 
   const handleSearch = () => {
-    setPayments([]); // 검색 시 기존 결과 초기화
     setPage(0); // 페이지 초기화
     setFilters(searchInput);
   };
@@ -69,9 +68,15 @@ const TransactionsPage = () => {
 
   useEffect(() => {
     if (Array.isArray(data?.data?.payments)) {
-      setPayments((prevPayments) => [...prevPayments, ...data.data.payments]);
+      if (page === 0) {
+        // 첫 페이지일 경우 데이터 초기화
+        setPayments(data.data.payments);
+      } else {
+        // 그 외의 경우 데이터 추가
+        setPayments((prevPayments) => [...prevPayments, ...data.data.payments]);
+      }
     }
-  }, [data]);
+  }, [data, page]);
 
   if (isLoading) return <Loader />;
   else if (isError) return <Error />;
@@ -131,13 +136,21 @@ const TransactionsPage = () => {
           </li>
         </ul>
 
-        <Transactions data={payments} />
-        {Array.isArray(data?.data?.payments) &&
-          data.data.payments.length > 0 && (
-            <Button onClick={handleLoadMore} className='mt-4'>
-              더보기
-            </Button>
-          )}
+        {payments.length > 0 ? (
+          <>
+            <Transactions data={payments} />
+            {Array.isArray(data?.data?.payments) &&
+              data.data.payments.length > 0 && (
+                <Button onClick={handleLoadMore} className='mt-4'>
+                  더보기
+                </Button>
+              )}
+          </>
+        ) : (
+          <div className='flex justify-center items-center h-[200px] text-gray-500'>
+            데이터가 없습니다
+          </div>
+        )}
       </>
     );
   }
