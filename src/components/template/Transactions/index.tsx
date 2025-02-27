@@ -44,8 +44,8 @@ const Transactions = ({ data }: { data: Payment[] }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {result.map((payment: FlattenedPayment) => (
-            <TableRow key={payment.paymentKey} className='hover:bg-[#f1f1f1]'>
+          {result.map((payment: FlattenedPayment, index: number) => (
+            <TableRow key={index} className='hover:bg-[#f1f1f1]'>
               <TableCell className='text-center py-3 border-b border-gray-300'>
                 {payment.paymentKey}
               </TableCell>

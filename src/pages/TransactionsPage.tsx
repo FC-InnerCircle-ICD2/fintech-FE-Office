@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/ui/select';
+import { Input } from '@components/ui/input';
 
 const TransactionsPage = () => {
   const { auth } = useAuthStore();
@@ -39,18 +40,30 @@ const TransactionsPage = () => {
   else {
     return (
       <>
-        <Select>
-          <SelectTrigger className='w-[180px]'>
-            <SelectValue placeholder='거래상태' />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {/* <SelectLabel>거래상태</SelectLabel> */}
-              <SelectItem value='apple'>APPROVED</SelectItem>
-              <SelectItem value='banana'>CANCELLED</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+        <ul className='mb-4 flex gap-2'>
+          <li>
+            <Input placeholder='거래번호' />
+          </li>
+
+          <li>
+            <Input type='date' placeholder='거래일자' />
+          </li>
+
+          <li>
+            <Select>
+              <SelectTrigger className='w-[180px] rounded-xl'>
+                <SelectValue placeholder='거래상태' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {/* <SelectLabel>거래상태</SelectLabel> */}
+                  <SelectItem value='apple'>APPROVED</SelectItem>
+                  <SelectItem value='banana'>CANCELLED</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </li>
+        </ul>
 
         <Transactions data={payments} />
         {Array.isArray(data?.data?.payments) &&
