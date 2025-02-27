@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { apiClient } from '@lib/api/apiClient';
 import { API_ENDPOINTS } from '@constants/apiEndpoints';
 import type { PaymentResponse } from '@type/transaction';
@@ -13,6 +13,7 @@ export const usePayments = (accessToken: string, page: number = 0) => {
           Authorization: `Bearer ${accessToken}`,
         },
       ),
+    placeholderData: keepPreviousData,
   });
 };
 

@@ -20,7 +20,7 @@ const TransactionsPage = () => {
   };
 
   useEffect(() => {
-    if (data && data.data && Array.isArray(data.data.payments)) {
+    if (Array.isArray(data?.data?.payments)) {
       setPayments((prevPayments) => [...prevPayments, ...data.data.payments]);
     }
   }, [data]);
