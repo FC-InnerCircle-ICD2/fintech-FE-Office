@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
-import { useLogin } from '@hooks/useAuth';
+import { useLogin } from '@hooks/api/useAuth';
 import { ZodError } from 'zod';
 import { formatZodErrors } from '@lib/zod';
 import type { ZodFormErrors } from '@type/zod';
@@ -22,13 +22,17 @@ const LoginPage = () => {
 
       const credentials = { email, password };
       login(credentials);
-      // TODO: zustand로 인증 상태관리 (useLogin 훅에서 처리)
-      // TODO: 메인페이지로 리다이렉트 (useLogin 훅에서 처리)
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedErrors = formatZodErrors(error);
         setErrors(formattedErrors);
       }
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleLogin();
     }
   };
 
@@ -40,6 +44,7 @@ const LoginPage = () => {
           className='h-12 rounded-xl'
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         {errors.email && (
           <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
@@ -52,6 +57,7 @@ const LoginPage = () => {
           className='h-12 rounded-xl'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleKeyDown}
         />
         {errors.password && (
           <p className='text-red-500 text-sm mt-1'>{errors.password}</p>

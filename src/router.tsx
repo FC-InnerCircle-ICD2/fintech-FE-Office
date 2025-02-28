@@ -1,6 +1,8 @@
 import Layout from '@components/template/Layout';
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+import { ProtectedRoute } from '@components/template/auth/ProtectedRoute';
+import { ROUTES } from '@constants/routes';
 
 const MainPage = lazy(() =>
   import('@pages/MainPage').then((module) => ({ default: module.default })),
@@ -13,8 +15,10 @@ const TransactionsPage = lazy(() =>
     default: module.default,
   })),
 );
-const ApiKeysPage = lazy(() =>
-  import('@pages/ApiKeysPage').then((module) => ({ default: module.default })),
+const KeyManagementPage = lazy(() =>
+  import('@pages/KeyManagementPage').then((module) => ({
+    default: module.default,
+  })),
 );
 const SignupPage = lazy(() =>
   import('@pages/SignupPage').then((module) => ({ default: module.default })),
@@ -22,28 +26,40 @@ const SignupPage = lazy(() =>
 
 const routes = [
   {
-    path: '/login',
+    path: ROUTES.LOGIN,
     element: <LoginPage />,
   },
   {
-    path: '/signup',
+    path: ROUTES.SIGNUP,
     element: <SignupPage />,
   },
   {
-    path: '/',
+    path: ROUTES.MAIN,
     element: <Layout />,
     children: [
       {
-        path: '/',
-        element: <MainPage />,
+        path: ROUTES.MAIN,
+        element: (
+          <ProtectedRoute>
+            <MainPage />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: '/transactions',
-        element: <TransactionsPage />,
+        path: ROUTES.TRANSACTIONS,
+        element: (
+          <ProtectedRoute>
+            <TransactionsPage />
+          </ProtectedRoute>
+        ),
       },
       {
-        path: '/api-keys',
-        element: <ApiKeysPage />,
+        path: ROUTES.KEY_MANAGEMENT,
+        element: (
+          <ProtectedRoute>
+            <KeyManagementPage />
+          </ProtectedRoute>
+        ),
       },
     ],
   },

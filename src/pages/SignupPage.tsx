@@ -5,7 +5,7 @@ import { ZodError } from 'zod';
 import { formatZodErrors } from '@lib/zod';
 import type { ZodFormErrors } from '@type/zod';
 import { signupSchema } from '@schema/auth';
-import { useSignup } from '@hooks/useAuth';
+import { useSignup } from '@hooks/api/useAuth';
 import AuthLayout from '@components/template/auth/AuthLayout';
 
 const SignupPage = () => {
@@ -46,6 +46,12 @@ const SignupPage = () => {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSignup();
+    }
+  };
+
   return (
     <AuthLayout linkText='이미 계정이 있으신가요?' linkTo='/login'>
       <div>
@@ -55,6 +61,7 @@ const SignupPage = () => {
           className='h-12 rounded-xl'
           value={formData.email}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         {errors.email && (
           <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
@@ -69,6 +76,7 @@ const SignupPage = () => {
           className='h-12 rounded-xl'
           value={formData.password}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         {errors.password && (
           <p className='text-red-500 text-sm mt-1'>{errors.password}</p>
@@ -83,6 +91,7 @@ const SignupPage = () => {
           className='h-12 rounded-xl'
           value={formData.passwordConfirm}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         {errors.passwordConfirm && (
           <p className='text-red-500 text-sm mt-1'>{errors.passwordConfirm}</p>
@@ -96,6 +105,7 @@ const SignupPage = () => {
           className='h-12 rounded-xl'
           value={formData.name}
           onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         {errors.name && (
           <p className='text-red-500 text-sm mt-1'>{errors.name}</p>

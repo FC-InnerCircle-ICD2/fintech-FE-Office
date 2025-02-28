@@ -1,10 +1,8 @@
-import * as LucideIcons from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { SideBarItemProps } from '@type/sidebar';
-
+import IconComponnt from '@components/template/IconComponnt';
 const SideBarItem = ({ icon, name, link, isActive }: SideBarItemProps) => {
   const navigate = useNavigate();
-  const IconComponent = LucideIcons[icon] as LucideIcons.LucideIcon;
 
   return (
     <li
@@ -13,7 +11,7 @@ const SideBarItem = ({ icon, name, link, isActive }: SideBarItemProps) => {
       }`}
       onClick={() => navigate(link)}
     >
-      <IconComponent />
+      <IconComponnt icon={icon} />
       <p>{name}</p>
     </li>
   );
