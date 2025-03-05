@@ -27,7 +27,9 @@ const SignupPage = () => {
     }));
   };
 
-  const handleSignup = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
       signupSchema.parse(formData);
       setErrors({});
@@ -46,75 +48,69 @@ const SignupPage = () => {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSignup();
-    }
-  };
-
   return (
     <AuthLayout linkText='이미 계정이 있으신가요?' linkTo='/login'>
-      <div>
-        <label className='text-sm mb-2 block'>이메일</label>
-        <Input
-          name='email'
-          className='h-12 rounded-xl'
-          value={formData.email}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        {errors.email && (
-          <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
-        )}
-      </div>
+      <form onSubmit={handleSubmit} className='space-y-4'>
+        <div>
+          <label className='text-sm mb-2 block'>이메일</label>
+          <Input
+            name='email'
+            className='h-12 rounded-xl'
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
+          )}
+        </div>
 
-      <div>
-        <label className='text-sm mb-2 block'>비밀번호</label>
-        <Input
-          type='password'
-          name='password'
-          className='h-12 rounded-xl'
-          value={formData.password}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        {errors.password && (
-          <p className='text-red-500 text-sm mt-1'>{errors.password}</p>
-        )}
-      </div>
+        <div>
+          <label className='text-sm mb-2 block'>비밀번호</label>
+          <Input
+            type='password'
+            name='password'
+            className='h-12 rounded-xl'
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <p className='text-red-500 text-sm mt-1'>{errors.password}</p>
+          )}
+        </div>
 
-      <div>
-        <label className='text-sm mb-2 block'>비밀번호 확인</label>
-        <Input
-          type='password'
-          name='passwordConfirm'
-          className='h-12 rounded-xl'
-          value={formData.passwordConfirm}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        {errors.passwordConfirm && (
-          <p className='text-red-500 text-sm mt-1'>{errors.passwordConfirm}</p>
-        )}
-      </div>
+        <div>
+          <label className='text-sm mb-2 block'>비밀번호 확인</label>
+          <Input
+            type='password'
+            name='passwordConfirm'
+            className='h-12 rounded-xl'
+            value={formData.passwordConfirm}
+            onChange={handleChange}
+          />
+          {errors.passwordConfirm && (
+            <p className='text-red-500 text-sm mt-1'>
+              {errors.passwordConfirm}
+            </p>
+          )}
+        </div>
 
-      <div>
-        <label className='text-sm mb-2 block'>이름</label>
-        <Input
-          name='name'
-          className='h-12 rounded-xl'
-          value={formData.name}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-        />
-        {errors.name && (
-          <p className='text-red-500 text-sm mt-1'>{errors.name}</p>
-        )}
-      </div>
+        <div>
+          <label className='text-sm mb-2 block'>이름</label>
+          <Input
+            name='name'
+            className='h-12 rounded-xl'
+            value={formData.name}
+            onChange={handleChange}
+          />
+          {errors.name && (
+            <p className='text-red-500 text-sm mt-1'>{errors.name}</p>
+          )}
+        </div>
 
-      <Button onClick={handleSignup} className='w-full h-12'>
-        회원가입
-      </Button>
+        <Button type='submit' className='w-full h-12'>
+          회원가입
+        </Button>
+      </form>
     </AuthLayout>
   );
 };
