@@ -9,9 +9,7 @@ import { useState, useEffect } from 'react';
 const ApiKeysPage = () => {
   const { auth } = useAuthStore();
   const { data, isLoading, isError } = useKeysId(auth!.accessToken);
-  const [issuedApiKey, setIssuedApiKey] = useState<null | undefined | string>(
-    null,
-  );
+  const [issuedApiKey, setIssuedApiKey] = useState<string | null>(null);
 
   useEffect(() => {
     const accessToken = data?.data.apiKey;
