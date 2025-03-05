@@ -6,78 +6,70 @@ import {
   TableHeader,
   TableRow,
 } from '@components/ui/table';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@components/ui/pagination';
-import type { Transaction } from '@type/transaction';
+import type { FlattenedPayment, Payment } from '@type/transaction';
 import { transactionHeaders } from '@constants/transaction';
 import { convertCurrencyFormat, convertDateFormat } from '@lib/fommater';
+import { useMemo } from 'react';
+import StatusBadge from './StatusBadge';
 
-const index = ({ data }: { data: Transaction[] }) => {
+const Transactions = ({ data }: { data: Payment[] }) => {
+  const result = useMemo(
+    () =>
+      data.flatMap((payment) =>
+        payment.transactions.map((transaction) => ({
+          paymentKey: transaction.paymentKey,
+          completedAt: transaction.completedAt,
+          orderName: payment.orderName,
+          cardNumber: payment.cardNumber,
+          amount: transaction.amount,
+          status: transaction.status,
+        })),
+      ),
+    [data],
+  );
+
   return (
     <>
       <Table className='w-auto mx-auto'>
         <TableHeader>
           <TableRow>
             {transactionHeaders.map((header) => (
-              <TableHead key={header} className='text-center'>
+              <TableHead
+                key={header}
+                className='text-center bg-[#f1f1f1] text-gray-700 p-2'
+              >
                 {header}
               </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((transaction: Transaction) => (
-            <TableRow key={transaction.id}>
-              <TableCell>{transaction.id}</TableCell>
-              <TableCell>{convertDateFormat(transaction.createdAt)}</TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell className='text-right'>
-                {convertCurrencyFormat(transaction.amount)}
+          {result.map((payment: FlattenedPayment, index: number) => (
+            <TableRow key={index} className='hover:bg-[#f1f1f1]'>
+              <TableCell className='text-center py-3 border-b border-gray-300'>
+                {payment.paymentKey}
               </TableCell>
-              <TableCell>{transaction.reason}</TableCell>
+              <TableCell className='py-3 border-b border-gray-300'>
+                {convertDateFormat(payment.completedAt)}
+              </TableCell>
+              <TableCell className='truncate w-48 py-3 border-b border-gray-300'>
+                {payment.orderName}
+              </TableCell>
+              <TableCell className='py-3 border-b border-gray-300'>
+                {payment.cardNumber}
+              </TableCell>
+              <TableCell className='text-right py-3 border-b border-gray-300'>
+                {convertCurrencyFormat(payment.amount)}
+              </TableCell>
+              <TableCell className='py-3 border-b border-gray-300'>
+                <StatusBadge status={payment.status} />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-
-      <Pagination className='mt-4'>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious onClick={() => console.log('previous')} />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationLink isActive>1</PaginationLink>
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationLink onClick={() => console.log('2')}>2</PaginationLink>
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationLink>3</PaginationLink>
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationNext />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
     </>
   );
 };
 
-export default index;
+export default Transactions;

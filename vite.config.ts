@@ -19,16 +19,4 @@ export default defineConfig({
       '@store': path.resolve(__dirname, './src/store'),
     },
   },
-
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://backoffice.pay-200.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-        secure: false,
-        ws: true,
-      },
-    },
-  },
 });
