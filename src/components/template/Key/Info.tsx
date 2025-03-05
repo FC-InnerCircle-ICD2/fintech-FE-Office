@@ -10,7 +10,7 @@ const ApiKeyInfo = () => {
         갱신하면 새로운 키가 발급되어 기존의 키는 사용할 수 없습니다
       </p>
       <Link
-        to={'https://github.com/FC-InnerCircle-ICD2/fintech-FE-SDK'}
+        to={'https://www.npmjs.com/package/@pay200/sdk'}
         target='_blank'
         className='block text-center text-primary hover:underline'
       >
