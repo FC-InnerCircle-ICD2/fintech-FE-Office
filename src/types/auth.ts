@@ -5,8 +5,8 @@ export type LoginReq = {
 
 export type Auth = {
   id: string;
-  token: string;
   name: string;
+  accessToken: string;
 };
 
 export type LoginRes = {

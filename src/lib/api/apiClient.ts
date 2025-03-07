@@ -2,8 +2,7 @@ import ky from 'ky';
 import { handleError } from './errorHandler';
 
 const instance = ky.create({
-  prefixUrl: '/api',
-  credentials: 'include',
+  // credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
   },
